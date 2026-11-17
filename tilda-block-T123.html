@@ -1,0 +1,267 @@
+<!-- COUNTERWEIGHT PLAYABLE BLOCK FOR TILDA (T123) -->
+<section id="play-inline" class="cw-tilda-playable" aria-label="Играть в Counterweight в браузере">
+  <style>
+    .cw-tilda-playable {
+      --cw-soot: #161412;
+      --cw-coal: #1d1b18;
+      --cw-iron: #2e2b27;
+      --cw-rule: #3a3631;
+      --cw-paper: #eee6d3;
+      --cw-dim: #aaa494;
+      --cw-mute: #8a8478;
+      --cw-brass: #d9b665;
+      background: var(--cw-soot);
+      color: var(--cw-paper);
+      padding: 56px 24px 64px;
+      scroll-margin-top: 72px;
+      font-family: "Fira Sans", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      box-sizing: border-box;
+    }
+    .cw-tilda-playable *, .cw-tilda-playable *::before, .cw-tilda-playable *::after {
+      box-sizing: border-box;
+    }
+    .cw-play-wrap {
+      width: 100%;
+      /* Помещается по высоте между верхним меню и нижней шахтной панелью лендинга */
+      max-width: min(1040px, calc((100vh - 230px) * 16 / 9));
+      margin: 0 auto;
+    }
+    .cw-play-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--cw-brass);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .cw-play-kicker span:last-child {
+      color: var(--cw-mute);
+      font-weight: 400;
+    }
+    .cw-stage-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0d0c0b;
+      border: 1px solid var(--cw-rule);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72);
+      overflow: hidden;
+    }
+    .cw-stage-frame iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: var(--cw-soot);
+    }
+    .cw-controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--cw-coal);
+      border: 1px solid var(--cw-iron);
+    }
+    .cw-keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--cw-dim);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .cw-keys b {
+      color: var(--cw-paper);
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .cw-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: auto;
+    }
+    .cw-fs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 14px;
+      border: 1px solid var(--cw-brass);
+      background: transparent;
+      color: var(--cw-brass);
+      font: 600 12px/1 inherit;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .cw-fs-btn:hover {
+      background: var(--cw-brass);
+      color: var(--cw-soot);
+    }
+    .cw-win-link {
+      color: var(--cw-mute);
+      font-size: 12px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      white-space: nowrap;
+    }
+    .cw-win-link:hover {
+      color: var(--cw-paper);
+    }
+
+    /* Мобильная карточка (без скачивания тяжёлого десктопного билда) */
+    .cw-mobile-card {
+      display: none;
+      border: 1px solid var(--cw-rule);
+      background: var(--cw-coal);
+      overflow: hidden;
+    }
+    .cw-mobile-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      image-rendering: pixelated;
+    }
+    .cw-mobile-body {
+      padding: 18px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cw-mobile-body p {
+      margin: 0;
+      color: var(--cw-paper);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .cw-copy-btn {
+      align-self: flex-start;
+      height: 38px;
+      padding: 0 18px;
+      border: 0;
+      background: var(--cw-brass);
+      color: var(--cw-soot);
+      font: 700 13px/1 inherit;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .cw-stage-frame, .cw-controls-bar { display: none; }
+      .cw-mobile-card { display: block; }
+      .cw-play-wrap { max-width: 640px; }
+    }
+  </style>
+
+  <div class="cw-play-wrap">
+    <div class="cw-play-kicker">
+      <span>● Шахтный терминал · Играть в браузере</span>
+      <span>Бесплатно · ~5 минут · Нужна мышь</span>
+    </div>
+
+    <div class="cw-stage-frame" id="cw-stage-frame">
+      <iframe
+        id="cw-game-iframe"
+        data-src="https://mmm1008fm.github.io/counterweight-embed/?nofs=1"
+        title="Counterweight — играть в браузере"
+        allow="autoplay; fullscreen"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div class="cw-controls-bar">
+      <ul class="cw-keys" aria-label="Управление в игре">
+        <li><b>Тяните вверх</b>вода в бак</li>
+        <li><b>Тяните вниз / ПКМ</b>тормоз</li>
+        <li><b>Мышь</b>луч лампы</li>
+        <li><b>Клик</b>держаться</li>
+        <li><b>Колесо</b>карта шахты</li>
+        <li><b>Esc</b>пауза</li>
+      </ul>
+      <div class="cw-actions">
+        <button class="cw-fs-btn" id="cw-fs-btn" type="button">⛶ Полный экран</button>
+        <a class="cw-win-link" href="https://morning-tea-studio.itch.io/counterweight" target="_blank" rel="noopener">Скачать для Windows ↗</a>
+      </div>
+    </div>
+
+    <div class="cw-mobile-card">
+      <img src="https://mmm1008fm.github.io/counterweight-embed/poster_menu.png" width="480" height="270" loading="lazy" alt="Меню Counterweight">
+      <div class="cw-mobile-body">
+        <p>Игре нужна мышь — откройте эту страницу на компьютере, чтобы поднять клеть прямо в браузере.</p>
+        <button class="cw-copy-btn" id="cw-copy-link" type="button">Скопировать ссылку для ПК</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var iframe = document.getElementById("cw-game-iframe");
+      var fsBtn = document.getElementById("cw-fs-btn");
+      var copyBtn = document.getElementById("cw-copy-link");
+      var mm = function (q) { return !!(window.matchMedia && window.matchMedia(q).matches); };
+      var isTouchOnly = mm("(pointer: coarse)") && !mm("(any-pointer: fine)");
+
+      // Подключаем iframe только на десктопе (на телефоне не тратим трафик)
+      if (!isTouchOnly && iframe && iframe.dataset.src) {
+        iframe.src = iframe.dataset.src;
+      }
+
+      // При старте игры мягко выключаем фоновый гул механизмов лендинга, чтобы звуки не накладывались
+      function muteLandingAmbient() {
+        var btn = document.querySelector('button[aria-label*="звук" i][aria-pressed="true"]');
+        if (btn) { try { btn.click(); } catch (e) {} }
+      }
+
+      window.addEventListener("message", function (e) {
+        if (!e.data || e.data.type !== "cw-embed") return;
+        if (e.data.event === "start") muteLandingAmbient();
+      });
+
+      if (fsBtn && iframe) {
+        fsBtn.addEventListener("click", function () {
+          if (iframe.requestFullscreen) iframe.requestFullscreen().catch(function () {});
+          else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+        });
+      }
+
+      // Если кнопки «Играть» на странице ведут на #play-inline — плавно скроллим и запускаем загрузку
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest('a[href="#play-inline"], a[href$="/#play-inline"]');
+        if (!a) return;
+        var sec = document.getElementById("play-inline");
+        if (!sec) return;
+        e.preventDefault();
+        sec.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (!isTouchOnly && iframe && iframe.contentWindow) {
+          muteLandingAmbient();
+          iframe.contentWindow.postMessage({ type: "cw:start" }, "*");
+        }
+      });
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+          var url = window.location.href.split("#")[0];
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function () {
+              copyBtn.textContent = "Ссылка скопирована ✓";
+            });
+          }
+        });
+      }
+    })();
+  </script>
+</section>
